@@ -1,3 +1,7 @@
 package main
 
-func main() {}
+func main() {
+	var a []string = []string{
+		"a",
+	}
+}
