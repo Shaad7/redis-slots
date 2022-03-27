@@ -9,7 +9,7 @@ func printAllKLengthRec(prefix []byte, k int, ch chan []byte) {
 	}
 
 	for i := 0; i < NUM_CHARS; i++ {
-		newPrefix := append([]byte(prefix), byte('a'+i))
+		newPrefix := append(prefix, byte('a'+i))
 		printAllKLengthRec(newPrefix, k-1, ch)
 	}
 }
