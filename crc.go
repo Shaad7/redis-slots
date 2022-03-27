@@ -113,5 +113,5 @@ func HashSlot(key string) uint16 {
 			key = key[s+1 : e]
 		}
 	}
-	return crc16([]byte(key))
+	return crc16([]byte(key)) % 16384
 }
