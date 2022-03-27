@@ -28,6 +28,8 @@
 
 package main
 
+import "strings"
+
 /* CRC16 implementation according to CCITT standards.
  *
  * Note by @antirez: this is actually the XMODEM CRC 16 algorithm, using the
@@ -79,12 +81,37 @@ var crc16tab = [256]uint16{
 }
 
 // ref: https://redis.io/docs/reference/cluster-spec/#appendix
-func crc16(buf []byte, len int) uint16 {
+func crc16(buf []byte) uint16 {
 	var upper byte
 	var crc uint16 = 0
-	for counter := 0; counter < len; counter++ {
+	for counter := 0; counter < len(buf); counter++ {
 		upper = (byte)(crc >> 8)
 		crc = (crc << 8) ^ crc16tab[(upper^buf[counter])&0x00FF]
 	}
 	return crc
+}
+
+/*
+def HASH_SLOT(key)
+    s = key.index "{"
+    if s
+        e = key.index "}",s+1
+        if e && e != s+1
+            key = key[s+1..e-1]
+        end
+    end
+    crc16(key) % 16384
+end
+
+*/
+
+func HashSlot(key string) uint16 {
+	s := strings.IndexRune(key, '{')
+	if s != -1 {
+		e := strings.IndexRune(key, '}')
+		if e != -1 && e != s+1 {
+			key = key[s+1 : e]
+		}
+	}
+	return crc16([]byte(key))
 }
