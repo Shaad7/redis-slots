@@ -1,6 +1,6 @@
 package main
 
-const NUM_CHARS = 16 // a-z
+const NUM_CHARS = 26 // a-z
 
 func printAllKLengthRec(prefix []byte, k int, ch chan []byte) {
 	if k == 0 {

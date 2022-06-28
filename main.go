@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 )
 
-const Length = 6
+const Length = 4
 
 func main() {
 	ch := make(chan []byte)
@@ -25,6 +26,7 @@ func main() {
 			break
 		}
 	}
+	fmt.Printf("Count is %d", count)
 
 	data, err := json.MarshalIndent(slots, "", "  ")
 	if err != nil {
